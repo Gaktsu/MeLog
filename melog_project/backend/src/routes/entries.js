@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { randomUUID } from 'node:crypto';
 import { db } from '../db.js';
 import { nowKST } from '../utils/time.js';
+import { analyzeEntry } from '../services/analyzeEntry.js';
 
 export const entriesRouter = Router();
 
@@ -45,11 +46,46 @@ entriesRouter.post('/', async (req, res) => {
     // AI 오류 대응 원칙(PRD 13장): 분석 실패해도 원본 기록은 보존되어야 하므로
     // 저장과 분석을 분리하고, analysis는 기본적으로 null 상태로 시작한다.
     analysis: null,
+    analysisError: null,
   };
 
+  // 1) 원본 기록을 먼저 저장 (분석이 실패해도 이 기록은 유실되지 않음)
   await db.read();
   db.data.entries.push(entry);
   await db.write();
 
+  // 2) 저장 직후 분석을 시도. 실패해도 저장된 entry는 그대로 응답한다.
+  try {
+    entry.analysis = await analyzeEntry(entry.content);
+  } catch (err) {
+    entry.analysisError = err.message;
+    console.error('[analyzeEntry] 분석 실패:', err.message);
+  }
+
+  await db.read();
+  const idx = db.data.entries.findIndex((e) => e.id === entry.id);
+  if (idx !== -1) db.data.entries[idx] = entry;
+  await db.write();
+
   res.status(201).json({ entry });
+});
+
+// 분석 재시도 (PRD 13장 확장성 원칙: AI 분석 방식이 바뀌어도 원본을 다시 분석할 수 있어야 함)
+entriesRouter.post('/:id/reanalyze', async (req, res) => {
+  await db.read();
+  const idx = db.data.entries.findIndex((e) => e.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Entry not found' });
+
+  const entry = db.data.entries[idx];
+  try {
+    entry.analysis = await analyzeEntry(entry.content);
+    entry.analysisError = null;
+  } catch (err) {
+    entry.analysisError = err.message;
+    return res.status(502).json({ error: err.message, entry });
+  }
+
+  db.data.entries[idx] = entry;
+  await db.write();
+  res.json({ entry });
 });

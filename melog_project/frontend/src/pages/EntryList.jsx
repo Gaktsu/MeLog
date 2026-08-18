@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { listEntries } from '../api/entries';
 
-export default function EntryList({ onBack, onWrite }) {
+export default function EntryList({ onBack, onWrite, onSelect }) {
   const [entries, setEntries] = useState([]);
   const [status, setStatus] = useState('loading'); // loading | ready | error
 
@@ -34,7 +34,7 @@ export default function EntryList({ onBack, onWrite }) {
       )}
 
       {entries.map((e) => (
-        <div className="list-item" key={e.id}>
+        <div className="list-item" key={e.id} onClick={() => onSelect(e.id)}>
           <div className="date">
             {new Date(e.createdAt).toLocaleString('ko-KR', {
               timeZone: 'Asia/Seoul',

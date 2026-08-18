@@ -26,3 +26,10 @@ export async function getEntry(id) {
   const res = await fetch(`${API_BASE}/api/v1/entries/${id}`);
   return handle(res);
 }
+
+export async function reanalyzeEntry(id) {
+  const res = await fetch(`${API_BASE}/api/v1/entries/${id}/reanalyze`, {
+    method: 'POST',
+  });
+  return handle(res);
+}
