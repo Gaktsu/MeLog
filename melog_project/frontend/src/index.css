@@ -1,0 +1,106 @@
+:root{
+  --paper:#EEF0EA;
+  --paper-line:#DBDECF;
+  --ink:#232823;
+  --ink-soft:#5B6259;
+  --indigo:#33475B;
+  --indigo-soft:#5A6E80;
+  --sage:#6E8A6E;
+  --sage-bg:#E4EAE0;
+  --amber:#C99A44;
+  --amber-bg:#F4E9D2;
+  --card:#FBFAF6;
+  --serif:'Iowan Old Style','Georgia','Noto Serif KR',serif;
+  --sans:-apple-system,'Pretendard','Apple SD Gothic Neo','Segoe UI',sans-serif;
+  --mono:'SF Mono','Consolas',monospace;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:var(--sans);
+  background:#DADCD3;
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:40px 16px;
+}
+#root{width:100%;display:flex;justify-content:center;}
+.frame{
+  width:100%;
+  max-width:420px;
+  min-height:720px;
+  background:var(--paper);
+  border-radius:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.15);
+  position:relative;
+  padding:32px 22px 22px;
+}
+.screen{display:flex;flex-direction:column;min-height:660px;}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
+  color:var(--ink-soft);text-transform:uppercase;margin-bottom:4px;
+}
+.title{
+  font-family:var(--serif);font-size:30px;font-weight:600;color:var(--ink);
+  margin:0 0 6px;letter-spacing:-0.01em;
+}
+.tagline{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-bottom:28px;}
+.btn{
+  border:none;border-radius:14px;padding:16px 18px;font-family:var(--sans);
+  font-size:15px;font-weight:600;cursor:pointer;text-align:left;width:100%;
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;
+}
+.btn:disabled{opacity:0.6;cursor:not-allowed;}
+.btn-primary{background:var(--indigo);color:#fff;}
+.btn-secondary{background:var(--card);color:var(--ink);border:1px solid var(--paper-line);}
+.btn-arrow{opacity:0.6;font-family:var(--mono);}
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.back{
+  width:30px;height:30px;border-radius:50%;background:var(--card);
+  border:1px solid var(--paper-line);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:15px;color:var(--ink);flex-shrink:0;
+}
+.topbar-title{font-family:var(--serif);font-size:18px;color:var(--ink);}
+.prompt-line{font-family:var(--serif);font-size:17px;color:var(--ink);margin-bottom:14px;}
+textarea{
+  flex:1;resize:none;border:1px solid var(--paper-line);background:var(--card);
+  border-radius:14px;padding:16px;font-family:var(--sans);font-size:15px;
+  line-height:1.6;color:var(--ink);margin-bottom:16px;min-height:220px;
+}
+textarea:focus{outline:2px solid var(--indigo-soft);}
+.card{
+  background:var(--card);border:1px solid var(--paper-line);border-radius:14px;
+  padding:14px 16px;margin-bottom:12px;
+}
+.card .k{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:6px;display:flex;align-items:center;gap:6px;
+}
+.card .v{font-size:14px;color:var(--ink);line-height:1.55;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ink-soft);display:inline-block;}
+.dot.sage{background:var(--sage);}
+.dot.amber{background:var(--amber);}
+.evidence-card{background:var(--sage-bg);border:1px solid #C9D8C0;}
+.original{
+  font-family:var(--serif);font-size:14px;color:var(--ink-soft);
+  border-left:2px solid var(--paper-line);padding-left:12px;margin-bottom:18px;
+  line-height:1.6;font-style:italic;
+}
+.list-item{
+  background:var(--card);border:1px solid var(--paper-line);border-radius:14px;
+  padding:14px 16px;margin-bottom:10px;
+}
+.list-item .date{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:6px;}
+.list-item .snip{font-size:14px;color:var(--ink);line-height:1.5;margin-bottom:8px;}
+.tag{
+  display:inline-block;font-family:var(--mono);font-size:10px;padding:3px 8px;
+  border-radius:20px;background:var(--sage-bg);color:var(--sage);margin-right:4px;
+}
+.fab{
+  position:absolute;bottom:20px;right:22px;width:52px;height:52px;border-radius:50%;
+  background:var(--indigo);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:24px;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(51,71,91,0.35);
+}
+.error-text{color:#B0433C;font-size:13px;margin-bottom:12px;}
+.loading-text,.empty-text{color:var(--ink-soft);font-size:13px;padding:20px 0;text-align:center;}
